@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { authService } from "@/services/auth";
 
 type User = {
@@ -17,47 +18,57 @@ interface AuthState {
   fetchUser: () => Promise<void>;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  loading: false,
-  error: null,
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      loading: false,
+      error: null,
 
-  login: async (email, password) => {
-    set({ loading: true, error: null });
-    try {
-      await authService.loginUser({ email, password });
-      const user = await authService.fetchUser();
-      set({ user, loading: false });
-    } catch (error: unknown) {
-      set({ error: (error as Error).message, loading: false });
+      login: async (email, password) => {
+        set({ loading: true, error: null });
+        try {
+          await authService.loginUser({ email, password });
+          const user = await authService.fetchUser();
+          set({ user, loading: false });
+        } catch (error: unknown) {
+          set({ error: (error as Error).message, loading: false });
+        }
+      },
+      logout: async () => {
+        set({ loading: true, error: null });
+        try {
+          await authService.logoutUser();
+          set({ user: null, loading: false });
+        } catch (error: unknown) {
+          set({ error: (error as Error).message, loading: false });
+        }
+      },
+      register: async (email, password, name) => {
+        set({ loading: true, error: null });
+        try {
+          await authService.registerUser({ email, password, name });
+          const user = await authService.fetchUser();
+          set({ user, loading: false });
+        } catch (error: unknown) {
+          set({ error: (error as Error).message, loading: false });
+        }
+      },
+      fetchUser: async () => {
+        set({ loading: true, error: null });
+        try {
+          const user = await authService.fetchUser();
+          set({ user, loading: false });
+        } catch (error: unknown) {
+          set({ error: (error as Error).message, loading: false });
+        }
+      },
+    }),
+    {
+      name: "auth-storage",
+      partialize: (state) => ({ user: state.user }),
+      // Optionally, use sessionStorage instead:
+      // storage: () => sessionStorage,
     }
-  },
-  logout: async () => {
-    set({ loading: true, error: null });
-    try {
-      await authService.logoutUser();
-      set({ user: null, loading: false });
-    } catch (error: unknown) {
-      set({ error: (error as Error).message, loading: false });
-    }
-  },
-  register: async (email, password, name) => {
-    set({ loading: true, error: null });
-    try {
-      await authService.registerUser({ email, password, name });
-      const user = await authService.fetchUser();
-      set({ user, loading: false });
-    } catch (error: unknown) {
-      set({ error: (error as Error).message, loading: false });
-    }
-  },
-  fetchUser: async () => {
-    set({ loading: true, error: null });
-    try {
-      const user = await authService.fetchUser();
-      set({ user, loading: false });
-    } catch (error: unknown) {
-      set({ error: (error as Error).message, loading: false });
-    }
-  },
-}));
+  )
+);
