@@ -1,15 +1,27 @@
 import { classroomTable, databaseId } from "@/constans/appwrite";
 import { database, ID } from "@/lib/appwrite";
-import { Query } from "appwrite";
+import { Models, Query } from "appwrite";
 
 interface CreateProps {
   userId: string;
   name: string;
 }
 
-const createClassroom = async ({ userId, name }: CreateProps) => {
+export interface Classroom extends Models.Row {
+  $id: string;
+  $createdAt: string;
+  $updatedAt: string;
+  name: string;
+  adminId: string;
+  users?: string[];
+}
+
+const createClassroom = async ({
+  userId,
+  name,
+}: CreateProps): Promise<Classroom> => {
   try {
-    await database.createRow({
+    const response: Classroom = await database.createRow({
       databaseId,
       tableId: classroomTable,
       rowId: ID.unique(),
@@ -18,14 +30,15 @@ const createClassroom = async ({ userId, name }: CreateProps) => {
         name,
       },
     });
-  } catch (error) {
+    return response;
+  } catch (error: unknown) {
     throw error || new Error("Failed to create classroom");
   }
 };
 
-const listClassrooms = async (userId: string) => {
+const listClassrooms = async (userId: string): Promise<Classroom[]> => {
   try {
-    const response = await database.listRows({
+    const response: { rows: Classroom[] } = await database.listRows({
       databaseId,
       tableId: classroomTable,
       queries: [
