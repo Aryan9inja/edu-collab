@@ -14,10 +14,13 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { authService } from "@/services/auth";
 import { toast } from "sonner";
 
 export default function LoginForm() {
+  const { login } = useAuthStore();
+
   const formSchema = z.object({
     "text-0": z.string(),
     "email-input-0": z.string(),
@@ -43,7 +46,7 @@ export default function LoginForm() {
       password: values["password-input-0"],
     };
     try {
-      await authService.loginUser(formData);
+      await login(formData.email, formData.password);
       toast.success("Logged in successfully");
     } catch (error) {
       console.error(error);
@@ -145,7 +148,10 @@ export default function LoginForm() {
                     disabled={loading}
                   >
                     {loading ? (
-                      <svg className="animate-spin size-4 mr-2" viewBox="0 0 24 24">
+                      <svg
+                        className="animate-spin size-4 mr-2"
+                        viewBox="0 0 24 24"
+                      >
                         <circle
                           className="opacity-25"
                           cx="12"
