@@ -1,0 +1,70 @@
+"use client";
+
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Classroom, getClassroom } from "@/services/classroom";
+
+export default function ClassroomPage() {
+  const { id } = useParams<{ id: string }>();
+  const [loading, setLoading] = useState(true);
+  const [classroomData, setClassroomData] = useState<Classroom | null>(null);
+  useEffect(() => {
+    const fetchClassroom = async () => {
+      const data = await getClassroom(id);
+      setClassroomData(data);
+      setLoading(false);
+    };
+    fetchClassroom();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-1 justify-center items-center py-8 overflow-hidden">
+        <span className="text-gray-500">Loading...</span>
+      </div>
+    );
+  }
+
+  if (!classroomData) {
+    return (
+      <div className="flex flex-1 justify-center items-center py-8 overflow-hidden">
+        <span className="text-gray-500">Classroom not found</span>
+      </div>
+    );
+  }
+  return (
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow mt-8">
+      <h1 className="text-3xl font-bold mb-2">{classroomData.name}</h1>
+      <div className="mb-6">
+        <h2 className="text-xl font-semibold mb-2">Users</h2>
+        <ul className="list-disc list-inside">
+          {classroomData.users?.map((userId) => (
+            <li key={userId} className="font-mono text-sm">
+              {userId}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2 className="text-xl font-semibold mb-2">Notes</h2>
+        <div className="space-y-4">
+          {classroomData.notes?.length === 0 && (
+            <div className="p-4 border rounded bg-gray-50">
+              <h3 className="font-semibold mb-1">No notes available</h3>
+            </div>
+          )}
+          {classroomData.notes?.map((noteId) => (
+            <div key={noteId} className="p-4 border rounded bg-gray-50">
+              <h3 className="font-semibold mb-1">
+                Note ID: <span className="font-mono text-sm">{noteId}</span>
+              </h3>
+              <p className="text-gray-700">
+                This is a placeholder for note content.
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
