@@ -1,5 +1,5 @@
 import { classroomTable, databaseId } from "@/constans/appwrite";
-import { database, ID } from "@/lib/appwrite";
+import { account, database, ID } from "@/lib/appwrite";
 import { Models, Query } from "appwrite";
 
 interface CreateProps {
@@ -14,6 +14,7 @@ export interface Classroom extends Models.Row {
   name: string;
   adminId: string;
   users?: string[];
+  notes?: string[];
 }
 
 const createClassroom = async ({
@@ -54,4 +55,17 @@ const listClassrooms = async (userId: string): Promise<Classroom[]> => {
   }
 };
 
-export { createClassroom, listClassrooms };
+const getClassroom = async (classroomId: string): Promise<Classroom> => {
+  try {
+    const response: Classroom = await database.getRow({
+      databaseId,
+      tableId: classroomTable,
+      rowId: classroomId,
+    });
+    return response;
+  } catch (error) {
+    throw error || new Error("Failed to get classroom details");
+  }
+};
+
+export { createClassroom, listClassrooms,getClassroom };
