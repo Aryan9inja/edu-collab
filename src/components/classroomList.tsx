@@ -2,9 +2,11 @@
 
 import { Classroom, listClassrooms } from "@/services/classroom";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ClassroomList() {
+  const router =useRouter()
   const { user } = useAuthStore();
   const userId = user?.$id || "";
   const [classrooms, setClassrooms] = useState<Classroom[]>([]);
@@ -51,6 +53,7 @@ export default function ClassroomList() {
           <li
             key={classroom.$id}
             className="flex items-center gap-4 p-4 bg-blue-50 rounded-lg shadow hover:bg-blue-100 transition-colors"
+            onClick={() => router.push(`/classrooms/${classroom.$id}`)}
           >
             <div className="flex-shrink-0">
               <svg className="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
