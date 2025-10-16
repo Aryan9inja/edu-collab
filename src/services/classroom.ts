@@ -1,5 +1,5 @@
 import { classroomTable, databaseId } from "@/constans/appwrite";
-import { account, database, ID } from "@/lib/appwrite";
+import { database, ID } from "@/lib/appwrite";
 import { Models, Query } from "appwrite";
 
 interface CreateProps {
