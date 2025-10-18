@@ -3,19 +3,43 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Classroom, getClassroom } from "@/services/classroom";
+import { getUsernames } from "@/services/users";
 
 export default function ClassroomPage() {
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(true);
   const [classroomData, setClassroomData] = useState<Classroom | null>(null);
+  const [usernames, setUsernames] = useState<string[]>([]);
+  
   useEffect(() => {
     const fetchClassroom = async () => {
-      const data = await getClassroom(id);
-      setClassroomData(data);
-      setLoading(false);
+      try {
+        const data = await getClassroom(id);
+        setClassroomData(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching classroom:", error);
+        setLoading(false);
+      }
     };
+
     fetchClassroom();
   }, [id]);
+
+  useEffect(() => {
+    const fetchUsernames = async () => {
+      if (classroomData && classroomData.users && classroomData.users.length > 0) {
+        try {
+          const usernameData = await getUsernames(classroomData.users);
+          setUsernames(usernameData.map((u) => u.name || u.id));
+        } catch (error) {
+          console.error("Error fetching usernames:", error);
+        }
+      }
+    };
+    
+    fetchUsernames();
+  }, [classroomData]);
 
   if (loading) {
     return (
@@ -38,9 +62,9 @@ export default function ClassroomPage() {
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-2">Users</h2>
         <ul className="list-disc list-inside">
-          {classroomData.users?.map((userId) => (
-            <li key={userId} className="font-mono text-sm">
-              {userId}
+          {usernames.map((username) => (
+            <li key={username} className="font-mono text-sm">
+              {username}
             </li>
           ))}
         </ul>
