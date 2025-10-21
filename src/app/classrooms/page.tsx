@@ -1,4 +1,5 @@
 import ClassroomList from "@/components/classroomList";
+import CreateClassButton from "@/components/createClassButton";
 import { LogoutButton } from "@/components/logoutButton";
 
 export default function Classrooms() {
@@ -50,6 +51,7 @@ export default function Classrooms() {
           </div>
         </div>
       </main>
+      <CreateClassButton/>
     </div>
   );
 }
