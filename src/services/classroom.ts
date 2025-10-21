@@ -29,6 +29,7 @@ const createClassroom = async ({
       data: {
         adminId: userId,
         name,
+        users: [userId],
       },
     });
     return response;
