@@ -1,0 +1,93 @@
+"use client";
+
+import { useState } from "react";
+
+interface InviteLinkButtonProps {
+  classroomId: string;
+}
+
+export default function InviteLinkButton({ classroomId }: InviteLinkButtonProps) {
+  const [copied, setCopied] = useState(false);
+  const [showLink, setShowLink] = useState(false);
+
+  const inviteUrl = typeof window !== 'undefined' 
+    ? `${window.location.origin}/classrooms/join/${classroomId}`
+    : '';
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(inviteUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
+  const handleShare = () => {
+    setShowLink(!showLink);
+  };
+
+  return (
+    <div className="relative">
+      <button
+        onClick={handleShare}
+        className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all duration-200 font-medium shadow-md hover:shadow-lg flex items-center gap-2"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+        </svg>
+        Invite Link
+      </button>
+
+      {showLink && (
+        <div className="absolute top-full mt-2 right-0 z-10 w-80 bg-white rounded-lg shadow-xl border border-gray-200 p-4">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-semibold text-gray-800">Share Invite Link</h3>
+            <button
+              onClick={() => setShowLink(false)}
+              className="text-gray-400 hover:text-gray-600"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div className="bg-gray-50 rounded-lg p-3 mb-3 border border-gray-200">
+            <p className="text-xs text-gray-600 break-all font-mono">{inviteUrl}</p>
+          </div>
+
+          <button
+            onClick={handleCopyLink}
+            className={`w-full px-4 py-2 rounded-lg transition-all duration-200 font-medium flex items-center justify-center gap-2 ${
+              copied
+                ? 'bg-green-500 text-white'
+                : 'bg-indigo-500 text-white hover:bg-indigo-600'
+            }`}
+          >
+            {copied ? (
+              <>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Copied!
+              </>
+            ) : (
+              <>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                </svg>
+                Copy Link
+              </>
+            )}
+          </button>
+
+          <p className="text-xs text-gray-500 mt-3 text-center">
+            Anyone with this link can join the classroom
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
