@@ -1,9 +1,10 @@
-import { Client, Account, TablesDB } from "appwrite";
+import { Client, Account, TablesDB, Storage } from "appwrite";
 
 export const client = new Client();
 
 let account: Account;
 let database: TablesDB;
+let storage: Storage;
 
 try {
   if (
@@ -19,9 +20,10 @@ try {
 
   account = new Account(client);
   database = new TablesDB(client);
+  storage = new Storage(client);
 } catch (error) {
   console.error(error);
 }
 
-export { account, database };
+export { account, database, storage };
 export { ID } from "appwrite";
