@@ -69,4 +69,71 @@ const getClassroom = async (classroomId: string): Promise<Classroom> => {
   }
 };
 
-export { createClassroom, listClassrooms,getClassroom };
+const updateClassroom = async (
+  classroomId: string,
+  data: Partial<Omit<Classroom, "$id" | "$createdAt" | "$updatedAt">>
+): Promise<Classroom> => {
+  try {
+    const response: Classroom = await database.updateRow({
+      databaseId,
+      tableId: classroomTable,
+      rowId: classroomId,
+      data,
+    });
+    return response;
+  } catch (error) {
+    throw error || new Error("Failed to update classroom");
+  }
+};
+
+const addNoteToClassroom = async (
+  classroomId: string,
+  noteId: string
+): Promise<Classroom> => {
+  try {
+    // First get the current classroom to get existing notes
+    const classroom = await getClassroom(classroomId);
+    const currentNotes = classroom.notes || [];
+    
+    // Add the new note ID to the array
+    const updatedNotes = [...currentNotes, noteId];
+    
+    // Update the classroom with the new notes array
+    return await updateClassroom(classroomId, { notes: updatedNotes });
+  } catch (error) {
+    throw error || new Error("Failed to add note to classroom");
+  }
+};
+
+const joinClassroom = async (
+  classroomId: string,
+  userId: string
+): Promise<Classroom> => {
+  try {
+    // Get the current classroom
+    const classroom = await getClassroom(classroomId);
+    const currentUsers = classroom.users || [];
+    
+    // Check if user is already in the classroom
+    if (currentUsers.includes(userId)) {
+      return classroom; // User already a member
+    }
+    
+    // Add the new user ID to the array
+    const updatedUsers = [...currentUsers, userId];
+    
+    // Update the classroom with the new users array
+    return await updateClassroom(classroomId, { users: updatedUsers });
+  } catch (error) {
+    throw error || new Error("Failed to join classroom");
+  }
+};
+
+export { 
+  createClassroom, 
+  listClassrooms, 
+  getClassroom, 
+  updateClassroom, 
+  addNoteToClassroom,
+  joinClassroom 
+};
