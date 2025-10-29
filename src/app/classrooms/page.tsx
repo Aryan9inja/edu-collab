@@ -1,9 +1,11 @@
+import Protected from "@/components/auth/protected";
 import ClassroomList from "@/components/classroomList";
 import CreateClassButton from "@/components/createClassButton";
 import { LogoutButton } from "@/components/logoutButton";
 
 export default function Classrooms() {
   return (
+    <Protected>
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-10">
@@ -53,5 +55,6 @@ export default function Classrooms() {
       </main>
       <CreateClassButton/>
     </div>
+    </Protected>
   );
 }
