@@ -16,8 +16,12 @@ import { Upload } from "lucide-react";
 import { authService } from "@/services/auth";
 import { toast } from "sonner";
 import React from "react";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 export default function UntitledForm() {
+  const router = useRouter();
+  const { register } = useAuthStore();
   const [loading, setLoading] = React.useState(false);
 
   const formSchema = z.object({
@@ -45,14 +49,16 @@ export default function UntitledForm() {
       password: values["password-input-0"],
     };
     try {
-      await authService.registerUser(formData);
+      await register(formData.email, formData.password, formData.name);
       toast.success("User created successfully");
+      router.push("/classrooms");
     } catch (error) {
       console.error(error);
       toast.error("Error creating new user");
       return;
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   function onReset() {

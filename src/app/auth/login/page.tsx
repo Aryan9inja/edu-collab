@@ -17,8 +17,10 @@ import { Upload } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { authService } from "@/services/auth";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const router = useRouter();
   const { login } = useAuthStore();
 
   const formSchema = z.object({
@@ -48,6 +50,7 @@ export default function LoginForm() {
     try {
       await login(formData.email, formData.password);
       toast.success("Logged in successfully");
+      router.push("/classrooms");
     } catch (error) {
       console.error(error);
       toast.error("Error logging in");
