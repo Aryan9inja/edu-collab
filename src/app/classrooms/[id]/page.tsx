@@ -3,11 +3,11 @@ import { notFound } from "next/navigation";
 import ClassroomContent from "@/components/classroom/ClassroomContent";
 
 interface ClassroomPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function ClassroomPage({ params }: ClassroomPageProps) {
-  const { id } = params;
+  const { id } = await params;
 
   // Fetch classroom data on the server
   let classroomData;
@@ -27,7 +27,7 @@ export default async function ClassroomPage({ params }: ClassroomPageProps) {
 
 // Optional: Generate metadata for better SEO
 export async function generateMetadata({ params }: ClassroomPageProps) {
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const classroom = await getClassroom(id);
