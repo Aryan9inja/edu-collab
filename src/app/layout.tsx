@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Toaster />
+        <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
         {children}
       </body>
     </html>
