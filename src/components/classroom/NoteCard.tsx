@@ -42,17 +42,16 @@ export default function NoteCard({ noteId, classroom, onDelete }: NoteCardProps)
   };
 
   return (
-    <div className="group p-5 border-2 border-gray-200 rounded-xl bg-gradient-to-br from-white to-gray-50 hover:border-purple-300 hover:shadow-lg transition-all duration-200">
+    <div className="group p-5 border-2 border-gray-200 rounded-xl bg-gradient-to-br from-white to-gray-50 hover:border-cyan-300 hover:shadow-lg transition-all duration-200">
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-gray-800 mb-1 group-hover:text-purple-600 transition-colors">
+          <h3 className="text-lg font-semibold text-gray-800 mb-1 group-hover:text-cyan-600 transition-colors">
             {loading ? (
               <span className="text-gray-400 animate-pulse">Loading...</span>
             ) : (
               noteName
             )}
           </h3>
-          <p className="text-xs text-gray-500 font-mono">ID: {noteId.substring(0, 16)}...</p>
         </div>
         {classroom && (
           <DeleteNoteButton 
@@ -76,7 +75,7 @@ export default function NoteCard({ noteId, classroom, onDelete }: NoteCardProps)
         </button>
         <button 
           onClick={handleDownload}
-          className="flex-1 px-4 py-2.5 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 transition-all duration-200 font-medium shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+          className="flex-1 px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-lg hover:from-cyan-600 hover:to-cyan-700 transition-all duration-200 font-medium shadow-md hover:shadow-lg flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
