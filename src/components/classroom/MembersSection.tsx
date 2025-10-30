@@ -177,7 +177,7 @@ export default function MembersSection({ userIds, classroom, onAccessChange }: M
                           className="flex items-center justify-between px-3 py-2 hover:bg-gray-50 transition-colors"
                         >
                           <div className="flex items-center gap-2 flex-1">
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm relative">
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-sm relative">
                               {result.name.charAt(0).toUpperCase()}
                               {isUserAdmin && (
                                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
@@ -282,12 +282,12 @@ export default function MembersSection({ userIds, classroom, onAccessChange }: M
             const isProcessing = processingUserId === userId;
 
             return (
-              <div 
+                <div 
                 key={userId} 
-                className="flex items-center justify-between gap-3 p-3 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-100 hover:shadow-md transition-all"
+                className="flex items-center justify-between gap-3 p-3 rounded-lg bg-gradient-to-r from-blue-50 to-sky-50 border border-blue-100 hover:shadow-md transition-all"
               >
                 <div className="flex items-center gap-3 flex-1">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold relative">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold relative">
                     {username.charAt(0).toUpperCase()}
                     {isUserAdmin && (
                       <div className="absolute -top-1 -right-1 w-5 h-5 bg-yellow-400 rounded-full flex items-center justify-center">
