@@ -51,7 +51,7 @@ export default function CreateClassButton() {
       {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-8 right-8 bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-200 group z-50"
+        className="fixed bottom-8 right-8 bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 rounded-full shadow-lg hover:shadow-2xl hover:scale-110 transition-all duration-200 group z-50"
         title="Create new classroom"
       >
         <svg
@@ -82,7 +82,7 @@ export default function CreateClassButton() {
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               <div className="flex items-center gap-3">
-                <div className="bg-gradient-to-br from-blue-100 to-indigo-100 p-2 rounded-lg">
+                <div className="bg-gradient-to-br from-blue-100 to-sky-100 p-2 rounded-lg">
                   <svg
                     className="w-6 h-6 text-blue-600"
                     fill="none"
@@ -173,7 +173,7 @@ export default function CreateClassButton() {
                 <Button
                   type="submit"
                   disabled={loading || !className.trim()}
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
                 >
                   {loading ? (
                     <>
