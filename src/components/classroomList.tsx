@@ -1,6 +1,6 @@
 "use client";
 
-import { Classroom, listClassrooms } from "@/services/classroom";
+import { Classroom, joinClassroom, listClassrooms } from "@/services/classroom";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -26,6 +26,18 @@ export default function ClassroomList() {
     };
     fetchClassrooms();
   }, [userId]);
+
+  const handleJoinDemo = async () => {
+    setLoading(true);
+    try {
+      await joinClassroom(process.env.NEXT_PUBLIC_DEMO_CLASSROOM_ID!, userId);
+      router.push(`/classrooms/${process.env.NEXT_PUBLIC_DEMO_CLASSROOM_ID!}`);
+    } catch (error) {
+      console.error("Error joining demo classroom:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -63,7 +75,13 @@ export default function ClassroomList() {
         </h3>
         <p className="text-gray-500 text-center max-w-sm">
           You haven't joined or created any classrooms. Create one to get
-          started!
+          started! Or join a Demo Classroom
+          <button
+            className="ml-2 text-blue-600 font-medium hover:underline"
+            onClick={handleJoinDemo}
+          >
+            Join Demo
+          </button>
         </p>
       </div>
     );
