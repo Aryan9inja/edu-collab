@@ -15,6 +15,7 @@ export interface Classroom extends Models.Row {
   adminId: string;
   users?: string[];
   notes?: string[];
+  hasAccess?: string[]; // Optional field to track users with access
 }
 
 const createClassroom = async ({
@@ -30,6 +31,7 @@ const createClassroom = async ({
         adminId: userId,
         name,
         users: [userId],
+        hasAccess: [userId], // Admin has access by default
       },
     });
     return response;
@@ -129,11 +131,108 @@ const joinClassroom = async (
   }
 };
 
+// Check if user has access to modify classroom
+const checkUserAccess = (classroom: Classroom, userId: string): boolean => {
+  // Admin always has access
+  if (classroom.adminId === userId) {
+    return true;
+  }
+  
+  // Check if user is in hasAccess array
+  const hasAccessList = classroom.hasAccess || [];
+  return hasAccessList.includes(userId);
+};
+
+// Grant access to a user
+const grantAccess = async (
+  classroomId: string,
+  userId: string,
+  requestingUserId: string
+): Promise<Classroom> => {
+  try {
+    const classroom = await getClassroom(classroomId);
+    
+    // Check if requesting user has permission (must be admin or have access)
+    if (!checkUserAccess(classroom, requestingUserId)) {
+      throw new Error("You don't have permission to grant access");
+    }
+    
+    const currentAccess = classroom.hasAccess || [];
+    
+    // Check if user already has access
+    if (currentAccess.includes(userId)) {
+      return classroom; // User already has access
+    }
+    
+    // Add the new user ID to hasAccess array
+    const updatedAccess = [...currentAccess, userId];
+    
+    return await updateClassroom(classroomId, { hasAccess: updatedAccess });
+  } catch (error) {
+    throw error || new Error("Failed to grant access");
+  }
+};
+
+// Revoke access from a user
+const revokeAccess = async (
+  classroomId: string,
+  userId: string,
+  requestingUserId: string
+): Promise<Classroom> => {
+  try {
+    const classroom = await getClassroom(classroomId);
+    
+    // Only admin can revoke access
+    if (classroom.adminId !== requestingUserId) {
+      throw new Error("Only admin can revoke access");
+    }
+    
+    // Cannot revoke admin's access
+    if (userId === classroom.adminId) {
+      throw new Error("Cannot revoke admin's access");
+    }
+    
+    const currentAccess = classroom.hasAccess || [];
+    const updatedAccess = currentAccess.filter(id => id !== userId);
+    
+    return await updateClassroom(classroomId, { hasAccess: updatedAccess });
+  } catch (error) {
+    throw error || new Error("Failed to revoke access");
+  }
+};
+
+// Delete a note from classroom
+const deleteNoteFromClassroom = async (
+  classroomId: string,
+  noteId: string,
+  userId: string
+): Promise<Classroom> => {
+  try {
+    const classroom = await getClassroom(classroomId);
+    
+    // Check if user has access to delete
+    if (!checkUserAccess(classroom, userId)) {
+      throw new Error("You don't have permission to delete notes");
+    }
+    
+    const currentNotes = classroom.notes || [];
+    const updatedNotes = currentNotes.filter(id => id !== noteId);
+    
+    return await updateClassroom(classroomId, { notes: updatedNotes });
+  } catch (error) {
+    throw error || new Error("Failed to delete note from classroom");
+  }
+};
+
 export { 
   createClassroom, 
   listClassrooms, 
   getClassroom, 
   updateClassroom, 
   addNoteToClassroom,
-  joinClassroom 
+  joinClassroom,
+  checkUserAccess,
+  grantAccess,
+  revokeAccess,
+  deleteNoteFromClassroom
 };
