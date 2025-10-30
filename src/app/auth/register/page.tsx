@@ -67,34 +67,45 @@ export default function UntitledForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="m-auto w-full max-w-md p-4 border rounded-lg shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-sky-50">
+      <div className="m-auto w-full max-w-md p-8 bg-white rounded-2xl shadow-xl border border-gray-200">
+        {/* Logo and Header */}
+        <div className="text-center mb-8">
+          <div className="bg-gradient-to-br from-blue-600 to-blue-700 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <svg
+              className="w-8 h-8 text-white"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 14l9-5-9-5-9 5 9 5zm0 0v6m0-6l-9-5m9 5l9-5"
+              />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+            Join EduCollab
+          </h1>
+          <p className="text-gray-600">Create your account to get started</p>
+        </div>
+
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             onReset={onReset}
-            className="space-y-8 @container"
+            className="space-y-6 @container"
           >
             <div className="grid grid-cols-12 gap-4">
-              <div
-                key="text-0"
-                id="text-0"
-                className=" col-span-12 col-start-auto"
-              >
-                <h2
-                  style={{ textAlign: "center" }}
-                  className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0"
-                >
-                  Signup Form
-                </h2>
-              </div>
 
               <FormField
                 control={form.control}
                 name="text-input-0"
                 render={({ field }) => (
                   <FormItem className="col-span-12 col-start-auto flex self-end flex-col gap-2 space-y-0 items-start">
-                    <FormLabel className="flex shrink-0">Name</FormLabel>
+                    <FormLabel className="flex shrink-0 text-gray-700 font-medium">Name</FormLabel>
 
                     <div className="w-full">
                       <FormControl>
@@ -104,7 +115,7 @@ export default function UntitledForm() {
                             placeholder="John Doe"
                             type="text"
                             id="text-input-0"
-                            className=" "
+                            className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                             {...field}
                           />
                         </div>
@@ -120,7 +131,7 @@ export default function UntitledForm() {
                 name="email-input-0"
                 render={({ field }) => (
                   <FormItem className="col-span-12 col-start-auto flex self-end flex-col gap-2 space-y-0 items-start">
-                    <FormLabel className="flex shrink-0">Email</FormLabel>
+                    <FormLabel className="flex shrink-0 text-gray-700 font-medium">Email</FormLabel>
 
                     <div className="w-full">
                       <FormControl>
@@ -130,7 +141,7 @@ export default function UntitledForm() {
                             placeholder="johndoe@example.com"
                             type="email"
                             id="email-input-0"
-                            className=" "
+                            className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                             {...field}
                           />
                         </div>
@@ -146,17 +157,17 @@ export default function UntitledForm() {
                 name="password-input-0"
                 render={({ field }) => (
                   <FormItem className="col-span-12 col-start-auto flex self-end flex-col gap-2 space-y-0 items-start">
-                    <FormLabel className="flex shrink-0">Password</FormLabel>
+                    <FormLabel className="flex shrink-0 text-gray-700 font-medium">Password</FormLabel>
 
                     <div className="w-full">
                       <FormControl>
                         <div className="relative w-full">
                           <Input
                             key="password-input-0"
-                            placeholder="password"
+                            placeholder="Minimum 8 characters"
                             type="password"
                             id="password-input-0"
-                            className=" "
+                            className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                             {...field}
                           />
                         </div>
@@ -172,41 +183,70 @@ export default function UntitledForm() {
                   <Button
                     key="submit-button-0"
                     id="submit-button-0"
-                    className="w-full"
+                    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md hover:shadow-lg transition-all"
                     type="submit"
-                    variant="default"
                     disabled={loading}
                   >
                     {loading ? (
-                      <svg
-                        className="animate-spin size-4 mr-2"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                          fill="none"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                        />
-                      </svg>
+                      <>
+                        <svg
+                          className="animate-spin size-4 mr-2"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                            fill="none"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                          />
+                        </svg>
+                        Creating account...
+                      </>
                     ) : (
-                      <Upload className="size-4" strokeWidth="2" />
+                      <>
+                        <svg
+                          className="size-4 mr-2"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                          />
+                        </svg>
+                        Create Account
+                      </>
                     )}
-                    {loading ? "Loading..." : "Submit"}
                   </Button>
                 </div>
               </div>
             </div>
           </form>
         </Form>
+
+        {/* Login Link */}
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600">
+            Already have an account?{" "}
+            <a
+              href="/auth/login"
+              className="text-blue-600 hover:text-cyan-600 font-medium transition-colors"
+            >
+              Sign in
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
