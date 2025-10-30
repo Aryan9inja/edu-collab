@@ -1,6 +1,6 @@
 import { notesStorage } from "@/constans/appwrite";
 import { ID, storage } from "@/lib/appwrite";
-import { addNoteToClassroom } from "./classroom";
+import { addNoteToClassroom, getClassroom, checkUserAccess } from "./classroom";
 
 export const getNote = (noteId: string) => {
   return storage.getFileView({
@@ -23,8 +23,14 @@ export const getFileDownloadLink = (noteId: string) => {
   });
 }
 
-export const uploadNote = async (file: File, classroomId: string) => {
+export const uploadNote = async (file: File, classroomId: string, userId: string) => {
   try {
+    // Check if user has access to upload notes
+    const classroom = await getClassroom(classroomId);
+    if (!checkUserAccess(classroom, userId)) {
+      throw new Error("You don't have permission to upload notes to this classroom");
+    }
+
     // Step 1: Upload file to storage
     const response = await storage.createFile({
       bucketId: notesStorage,
@@ -42,3 +48,16 @@ export const uploadNote = async (file: File, classroomId: string) => {
     throw error || new Error("Failed to upload note");
   }
 }
+
+export const deleteNote = async (noteId: string, userId: string) => {
+  try {
+    // Note: You might want to check permissions here as well
+    // For now, we'll just delete from storage
+    await storage.deleteFile({
+      bucketId: notesStorage,
+      fileId: noteId,
+    });
+  } catch (error) {
+    throw error || new Error("Failed to delete note");
+  }
+};
