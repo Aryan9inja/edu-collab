@@ -122,13 +122,13 @@ export default function UsernameSetup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-sky-50">
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md border border-gray-200">
         <div className="text-center mb-8">
-          <div className="bg-gradient-to-br from-blue-600 to-indigo-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="bg-gradient-to-br from-blue-600 to-blue-700 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
             <FaUser className="text-white text-2xl" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">
             Choose Your Username
           </h1>
           <p className="text-gray-600">
@@ -148,14 +148,14 @@ export default function UsernameSetup() {
                 placeholder="johndoe_123"
                 value={username}
                 onChange={handleUsernameChange}
-                className={`pr-24 ${error ? "border-red-500" : ""}`}
+                className={`pr-24 border-gray-300 focus:border-blue-500 focus:ring-blue-500 ${error ? "border-red-500 focus:border-red-500" : ""}`}
                 disabled={loading}
               />
               <Button
                 type="button"
                 onClick={checkAvailability}
                 disabled={!username.trim() || !!error || checking || loading}
-                className="absolute right-1 top-1/2 -translate-y-1/2 h-8 px-3 text-xs"
+                className="absolute right-1 top-1/2 -translate-y-1/2 h-8 px-3 text-xs bg-blue-100 text-blue-700 hover:bg-blue-200 border-blue-200"
                 variant="outline"
               >
                 {checking ? (
@@ -192,7 +192,7 @@ export default function UsernameSetup() {
           <Button
             type="submit"
             disabled={loading || checking || !!error || !username.trim()}
-            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-lg transition-all"
+            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md hover:shadow-lg transition-all"
           >
             {loading ? (
               <>
