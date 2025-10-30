@@ -12,16 +12,16 @@ import {
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-sky-50">
       {/* Navigation */}
       <nav className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center gap-3">
-              <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-2 rounded-lg shadow-lg">
+              <div className="bg-gradient-to-br from-blue-600 to-blue-700 p-2 rounded-lg shadow-lg">
                 <FaGraduationCap className="w-6 h-6 text-white" />
               </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
                 EduCollab
               </h1>
             </div>
@@ -34,7 +34,7 @@ export default function LandingPage() {
               </Link>
               <Link
                 href="/auth/register"
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-200"
+                className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-200"
               >
                 Get Started
               </Link>
@@ -48,8 +48,8 @@ export default function LandingPage() {
         <div className="text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
             Collaborate, Learn,
-            <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Succeed Together
+            <span className="block bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+              Succeed 
             </span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
@@ -59,7 +59,7 @@ export default function LandingPage() {
           <div className="flex gap-4 justify-center">
             <Link
               href="/auth/register"
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2"
+              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-xl hover:scale-105 transition-all duration-200 flex items-center gap-2"
             >
               Start Free Today
               <FaArrowRight />
@@ -114,8 +114,8 @@ export default function LandingPage() {
 
           {/* Feature 3 */}
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-lg transition-shadow">
-            <div className="bg-purple-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
-              <FaUsers className="text-purple-600 text-2xl" />
+            <div className="bg-cyan-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
+              <FaUsers className="text-cyan-600 text-2xl" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">
               Manage Members
@@ -127,8 +127,8 @@ export default function LandingPage() {
 
           {/* Feature 4 */}
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-lg transition-shadow">
-            <div className="bg-indigo-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
-              <FaComments className="text-indigo-600 text-2xl" />
+            <div className="bg-teal-100 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
+              <FaComments className="text-teal-600 text-2xl" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">
               Real-time Collaboration
@@ -187,7 +187,7 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl p-8 flex items-center justify-center">
+            <div className="bg-gradient-to-br from-blue-100 to-sky-100 rounded-2xl p-8 flex items-center justify-center">
               <div className="text-center">
                 <FaGraduationCap className="text-8xl text-blue-600 mb-4 mx-auto" />
                 <p className="text-2xl font-bold text-gray-900">
@@ -201,7 +201,7 @@ export default function LandingPage() {
 
       {/* CTA Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-12 text-center text-white">
+        <div className="bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl p-12 text-center text-white shadow-xl">
           <h2 className="text-4xl font-bold mb-4">
             Ready to Transform Your Learning Experience?
           </h2>
@@ -210,7 +210,7 @@ export default function LandingPage() {
           </p>
           <Link
             href="/auth/register"
-            className="inline-block bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-xl transition-all duration-200"
+            className="inline-block bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200"
           >
             Create Your Free Account
           </Link>
@@ -221,7 +221,7 @@ export default function LandingPage() {
       <footer className="bg-gray-900 text-white py-8 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-2 rounded-lg">
+            <div className="bg-gradient-to-br from-blue-600 to-blue-700 p-2 rounded-lg">
               <FaGraduationCap className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold">EduCollab</span>
