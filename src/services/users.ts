@@ -101,3 +101,39 @@ export const checkUsernameExists = async (
     return false;
   }
 };
+
+export const searchUsersByUsername = async (
+  searchQuery: string,
+  classroomUserIds: string[]
+): Promise<{ id: string; name: string }[]> => {
+  try {
+    if (!searchQuery || searchQuery.trim().length === 0) {
+      return [];
+    }
+
+    if (!classroomUserIds || classroomUserIds.length === 0) {
+      return [];
+    }
+
+    // Get usernames only for users in the classroom
+    const usernames = await getUsernames(classroomUserIds);
+
+    // Filter by search query (case-insensitive) and limit to 10 results
+    const filteredUsers = usernames
+      .filter((userData) => {
+        if (!userData.name) return false;
+        const username = userData.name.toLowerCase();
+        return username.includes(searchQuery.toLowerCase());
+      })
+      .slice(0, 10) // Limit to 10 results
+      .map((userData) => ({
+        id: userData.id,
+        name: userData.name!,
+      }));
+
+    return filteredUsers;
+  } catch (error) {
+    console.error("Failed to search users:", error);
+    throw new Error("Failed to search users");
+  }
+};
