@@ -18,10 +18,11 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { authService } from "@/services/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { getUsername } from "@/services/users";
 
 export default function LoginForm() {
   const router = useRouter();
-  const { login } = useAuthStore();
+  const { login, setUserHasUsername } = useAuthStore();
 
   const formSchema = z.object({
     "text-0": z.string(),
@@ -49,8 +50,20 @@ export default function LoginForm() {
     };
     try {
       await login(formData.email, formData.password);
-      toast.success("Logged in successfully");
-      router.push("/classrooms");
+      
+      // Check if user has a username
+      const user = await authService.fetchUser();
+      try {
+        await getUsername(user.$id);
+        setUserHasUsername(true);
+        toast.success("Logged in successfully");
+        router.push("/classrooms");
+      } catch (error) {
+        // Username doesn't exist, redirect to setup
+        setUserHasUsername(false);
+        toast.success("Please set up your username");
+        router.push("/auth/username-setup");
+      }
     } catch (error) {
       console.error(error);
       toast.error("Error logging in");
