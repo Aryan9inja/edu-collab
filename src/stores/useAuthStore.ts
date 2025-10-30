@@ -6,6 +6,7 @@ type User = {
   $id: string;
   email: string;
   name?: string;
+  hasUsername?: boolean;
 } | null;
 
 interface AuthState {
@@ -16,6 +17,7 @@ interface AuthState {
   logout: () => Promise<void>;
   register: (email: string, password: string, name: string) => Promise<void>;
   fetchUser: () => Promise<void>;
+  setUserHasUsername: (hasUsername: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -62,6 +64,11 @@ export const useAuthStore = create<AuthState>()(
         } catch (error: unknown) {
           set({ error: (error as Error).message, loading: false });
         }
+      },
+      setUserHasUsername: (hasUsername: boolean) => {
+        set((state) => ({
+          user: state.user ? { ...state.user, hasUsername } : null,
+        }));
       },
     }),
     {
