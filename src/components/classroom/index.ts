@@ -6,3 +6,4 @@ export { default as ClassroomContent } from "./ClassroomContent";
 export { default as UploadNoteButton } from "./UploadNoteButton";
 export { default as InviteLinkButton } from "./InviteLinkButton";
 export { default as JoinClassroomClient } from "./JoinClassroomClient";
+export { default as DeleteNoteButton } from "./DeleteNoteButton";
