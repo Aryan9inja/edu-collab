@@ -55,7 +55,7 @@ export default function ClassroomList() {
   if (!classrooms.length) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
-        <div className="bg-gradient-to-br from-blue-100 to-indigo-100 p-6 rounded-full mb-4">
+        <div className="bg-gradient-to-br from-blue-100 to-sky-100 p-6 rounded-full mb-4">
           <svg
             className="w-16 h-16 text-blue-600"
             fill="none"
@@ -93,11 +93,11 @@ export default function ClassroomList() {
         <button
           key={classroom.$id}
           onClick={() => router.push(`/classrooms/${classroom.$id}`)}
-          className="w-full group relative flex items-center gap-4 p-5 bg-gradient-to-r from-white to-blue-50/50 rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 text-left"
+          className="w-full group relative flex items-center gap-4 p-5 bg-gradient-to-r from-white to-blue-50/50 rounded-xl border border-gray-200 hover:border-blue-400 hover:shadow-lg transition-all duration-200 text-left"
         >
           {/* Icon */}
           <div className="flex-shrink-0">
-            <div className="bg-gradient-to-br from-blue-500 to-indigo-600 p-3 rounded-lg shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-200">
+            <div className="bg-gradient-to-br from-blue-600 to-blue-700 p-3 rounded-lg shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-200">
               <svg
                 className="w-6 h-6 text-white"
                 fill="none"
