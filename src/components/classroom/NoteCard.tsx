@@ -2,12 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { getFileDownloadLink, getMetaData, getNote } from "@/services/notes";
+import type { Classroom } from "@/services/classroom";
+import DeleteNoteButton from "./DeleteNoteButton";
 
 interface NoteCardProps {
   noteId: string;
+  classroom?: Classroom;
+  onDelete?: () => void;
 }
 
-export default function NoteCard({ noteId }: NoteCardProps) {
+export default function NoteCard({ noteId, classroom, onDelete }: NoteCardProps) {
   const [noteName, setNoteName] = useState<string>("");
   const [loading, setLoading] = useState(true);
 
@@ -50,11 +54,13 @@ export default function NoteCard({ noteId }: NoteCardProps) {
           </h3>
           <p className="text-xs text-gray-500 font-mono">ID: {noteId.substring(0, 16)}...</p>
         </div>
-        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-400 to-blue-500 flex items-center justify-center text-white">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-          </svg>
-        </div>
+        {classroom && (
+          <DeleteNoteButton 
+            noteId={noteId} 
+            classroom={classroom} 
+            onDeleteSuccess={onDelete}
+          />
+        )}
       </div>
       
       <div className="flex gap-3">
