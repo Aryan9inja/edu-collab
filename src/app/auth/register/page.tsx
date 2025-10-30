@@ -51,7 +51,7 @@ export default function UntitledForm() {
     try {
       await register(formData.email, formData.password, formData.name);
       toast.success("User created successfully");
-      router.push("/classrooms");
+      router.push("/auth/username-setup");
     } catch (error) {
       console.error(error);
       toast.error("Error creating new user");
