@@ -1,14 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { checkUserAccess } from "@/services/classroom";
+import type { Classroom } from "@/services/classroom";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 interface InviteLinkButtonProps {
   classroomId: string;
+  classroom: Classroom;
 }
 
-export default function InviteLinkButton({ classroomId }: InviteLinkButtonProps) {
+export default function InviteLinkButton({ classroomId, classroom }: InviteLinkButtonProps) {
+  const { user } = useAuthStore();
   const [copied, setCopied] = useState(false);
   const [showLink, setShowLink] = useState(false);
+
+  // Check if user has access to share invite link
+  const hasAccess = user ? checkUserAccess(classroom, user.$id) : false;
 
   const inviteUrl = typeof window !== 'undefined' 
     ? `${window.location.origin}/classrooms/join/${classroomId}`
@@ -25,6 +33,7 @@ export default function InviteLinkButton({ classroomId }: InviteLinkButtonProps)
   };
 
   const handleShare = () => {
+    if (!hasAccess) return;
     setShowLink(!showLink);
   };
 
@@ -32,15 +41,30 @@ export default function InviteLinkButton({ classroomId }: InviteLinkButtonProps)
     <div className="relative">
       <button
         onClick={handleShare}
-        className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all duration-200 font-medium shadow-md hover:shadow-lg flex items-center gap-2"
+        disabled={!hasAccess}
+        className="peer px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all duration-200 font-medium shadow-md hover:shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed relative"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
         </svg>
         Invite Link
       </button>
+      
+      {/* Tooltip for users without access */}
+      {!hasAccess && (
+        <div className="invisible peer-hover:visible absolute left-0 top-full mt-2 w-64 p-3 bg-gray-900 text-white text-sm rounded-lg shadow-lg z-50 transition-all pointer-events-none">
+          <div className="flex items-start gap-2">
+            <svg className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <p>Only admins and allowed members can share invite links</p>
+          </div>
+          {/* Arrow */}
+          <div className="absolute left-6 -top-1 w-2 h-2 bg-gray-900 transform rotate-45"></div>
+        </div>
+      )}
 
-      {showLink && (
+      {showLink && hasAccess && (
         <div className="absolute top-full mt-2 right-0 z-10 w-80 bg-white rounded-lg shadow-xl border border-gray-200 p-4">
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-semibold text-gray-800">Share Invite Link</h3>
