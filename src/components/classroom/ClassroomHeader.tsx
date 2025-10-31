@@ -18,6 +18,8 @@ export default function ClassroomHeader({ name, classroomId, classroom }: Classr
   const { user } = useAuthStore();
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [leaving, setLeaving] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const isAdmin = user && classroom.adminId === user.$id;
 
@@ -45,6 +47,29 @@ export default function ClassroomHeader({ name, classroomId, classroom }: Classr
     } finally {
       setLeaving(false);
       setShowLeaveModal(false);
+    }
+  };
+
+  const handleDeleteClassroom = async () => {
+    if (!user) return;
+
+    setDeleting(true);
+    try {
+      const { deleteClassroom } = await import("@/services/classroom");
+      await deleteClassroom(classroomId, user.$id);
+
+      toast.success("Classroom deleted successfully");
+      router.push("/classrooms");
+    } catch (error) {
+      console.error("Error deleting classroom:", error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Failed to delete classroom");
+      }
+    } finally {
+      setDeleting(false);
+      setShowDeleteModal(false);
     }
   };
 
@@ -84,7 +109,33 @@ export default function ClassroomHeader({ name, classroomId, classroom }: Classr
           <div className="flex items-center gap-2">
             <InviteLinkButton classroomId={classroomId} classroom={classroom} />
             
-            {!isAdmin && (
+            {isAdmin ? (
+              <button
+                onClick={() => setShowDeleteModal(true)}
+                className="flex-shrink-0 p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all"
+                title="Delete Classroom"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 7l-1.341 12.064A2 2 0 0115.673 21H8.327a2 2 0 01-1.986-1.936L5 7m5-3h4a1 1 0 011 1v1h4"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 10l.867 8.142A1 1 0 0010.858 19h2.284a1 1 0 00.991-.858L15 10M10 7h4"
+                  />
+                </svg>
+              </button>
+            ) : (
               <button
                 onClick={() => setShowLeaveModal(true)}
                 className="flex-shrink-0 p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all"
@@ -186,6 +237,86 @@ export default function ClassroomHeader({ name, classroomId, classroom }: Classr
                     </>
                   ) : (
                     "Leave Classroom"
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showDeleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200" role="dialog" aria-modal="true">
+          <div
+            className="bg-white rounded-2xl shadow-2xl max-w-md w-full animate-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center gap-3">
+                <div className="bg-red-100 p-2 rounded-lg">
+                  <svg
+                    className="w-6 h-6 text-red-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+                    />
+                  </svg>
+                </div>
+                <h2 className="text-xl font-bold text-gray-900">
+                  Delete Classroom?
+                </h2>
+              </div>
+            </div>
+
+            <div className="p-6">
+              <p className="text-gray-600 mb-4">
+                This will permanently delete <span className="font-semibold">{name}</span> and all of its notes for every member. This action cannot be undone.
+              </p>
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  onClick={() => setShowDeleteModal(false)}
+                  disabled={deleting}
+                  className="flex-1 px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDeleteClassroom}
+                  disabled={deleting}
+                  className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all font-medium disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  {deleting ? (
+                    <>
+                      <svg
+                        className="animate-spin h-4 w-4"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          fill="none"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                        />
+                      </svg>
+                      Deleting...
+                    </>
+                  ) : (
+                    "Delete Classroom"
                   )}
                 </button>
               </div>

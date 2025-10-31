@@ -1,5 +1,5 @@
-import { classroomTable, databaseId } from "@/constans/appwrite";
-import { database, ID } from "@/lib/appwrite";
+import { classroomTable, databaseId, notesStorage } from "@/constans/appwrite";
+import { database, ID, storage } from "@/lib/appwrite";
 import { Models, Query } from "appwrite";
 
 interface CreateProps {
@@ -254,6 +254,40 @@ const leaveClassroom = async (
   }
 };
 
+const deleteClassroom = async (
+  classroomId: string,
+  userId: string
+): Promise<void> => {
+  try {
+    const classroom = await getClassroom(classroomId);
+
+    if (classroom.adminId !== userId) {
+      throw new Error("Only the admin can delete this classroom");
+    }
+
+    const noteIds = classroom.notes || [];
+
+    for (const noteId of noteIds) {
+      try {
+        await storage.deleteFile({
+          bucketId: notesStorage,
+          fileId: noteId,
+        });
+      } catch (error) {
+        console.error(`Failed to delete note file ${noteId}:`, error);
+      }
+    }
+
+    await database.deleteRow({
+      databaseId,
+      tableId: classroomTable,
+      rowId: classroomId,
+    });
+  } catch (error) {
+    throw error || new Error("Failed to delete classroom");
+  }
+};
+
 export { 
   createClassroom, 
   listClassrooms, 
@@ -265,5 +299,6 @@ export {
   grantAccess,
   revokeAccess,
   deleteNoteFromClassroom,
-  leaveClassroom
+  leaveClassroom,
+  deleteClassroom
 };
