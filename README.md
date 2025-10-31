@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hackathon Submission: EduCollab
 
-## Getting Started
+## GitHub handle
+@Aryan9inja
 
-First, run the development server:
+## Project Title
+EduCollab
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Project Description
+EduCollab is a collaborative classroom workspace that lets teachers spin up virtual classrooms, invite learners, and share study material in seconds. Built on the Next.js App Router, it gives authenticated members real-time access to class resources, granular note permissions, and a guided onboarding flow that captures usernames the moment a student signs up.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Inspiration behind the Project
+After spending the last semester juggling Discord threads, Drive folders, and scattered PDFs, I wanted a single hub that felt purpose-built for classrooms. EduCollab aims to give remote and hybrid groups a lightweight space where sharing notes, managing membership, and controlling access are all handled in one streamlined interface.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
+Next.js 15 (App Router) + TypeScript, Tailwind CSS 4, Zustand for client state, React Hook Form + Zod for guarded forms, Sonner for feedback toasts, and Appwrite (Auth, Tables/Databases, Storage) powering identity, classroom data, and file uploads. While whole this is deployed on appwrite sites.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Appwrite products
+- [x] Auth
+- [x] Databases
+- [x] Storage
+- [ ] Functions
+- [ ] Messaging
+- [ ] Realtime
+- [x] Sites
 
-## Learn More
+## Project Repo
+https://github.com/Aryan9inja/edu-collab
 
-To learn more about Next.js, take a look at the following resources:
+## Deployed Site URL
+[Deployed website](https://edu-collab.appwrite.network/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Demo Video/Photos
+[Video Presentation](https://youtu.be/mU8Cp1fhi5I)
