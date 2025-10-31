@@ -57,7 +57,7 @@ export default function LoginForm() {
         setUserHasUsername(true);
         toast.success("Logged in successfully");
         router.push("/classrooms");
-      } catch (error) {
+      } catch {
         // Username doesn't exist, redirect to setup
         setUserHasUsername(false);
         toast.success("Please set up your username");
@@ -223,7 +223,7 @@ export default function LoginForm() {
         {/* Register Link */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <a
               href="/auth/register"
               className="text-blue-600 hover:text-cyan-600 font-medium transition-colors"

@@ -27,7 +27,7 @@ export default function JoinClassroomClient({ classroom }: JoinClassroomClientPr
         if (classroom.users?.includes(user.$id)) {
           setIsAlreadyMember(true);
         }
-      } catch (err) {
+      } catch {
         // User not logged in, redirect to login
         router.push(`/auth/login?redirect=/classrooms/join/${classroom.$id}`);
       } finally {

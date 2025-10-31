@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: ClassroomPageProps) {
       title: `${classroom.name} | Edu Collab`,
       description: `View and manage notes for ${classroom.name}`,
     };
-  } catch (error) {
+  } catch {
     return {
       title: "Classroom | Edu Collab",
       description: "View classroom details",

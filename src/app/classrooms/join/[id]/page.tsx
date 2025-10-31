@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: JoinPageProps) {
       title: `Join ${classroom.name} | Edu Collab`,
       description: `You've been invited to join ${classroom.name}`,
     };
-  } catch (error) {
+  } catch {
     return {
       title: "Join Classroom | Edu Collab",
       description: "Join a classroom",

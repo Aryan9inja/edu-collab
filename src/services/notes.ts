@@ -49,7 +49,7 @@ export const uploadNote = async (file: File, classroomId: string, userId: string
   }
 }
 
-export const deleteNote = async (noteId: string, userId: string) => {
+export const deleteNote = async (noteId: string) => {
   try {
     // Note: You might want to check permissions here as well
     // For now, we'll just delete from storage

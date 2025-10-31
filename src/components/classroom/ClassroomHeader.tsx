@@ -195,7 +195,7 @@ export default function ClassroomHeader({ name, classroomId, classroom }: Classr
             <div className="p-6">
               <p className="text-gray-600 mb-4">
                 Are you sure you want to leave <span className="font-semibold">{name}</span>? 
-                You'll need a new invite link to rejoin.
+                You&apos;ll need a new invite link to rejoin.
               </p>
 
               {/* Actions */}

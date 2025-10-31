@@ -37,7 +37,7 @@ export default function DeleteNoteButton({
       await deleteNoteFromClassroom(classroom.$id, noteId, user.$id);
 
       // Then delete from storage
-      await deleteNote(noteId, user.$id);
+      await deleteNote(noteId);
       toast.success("Note deleted successfully");
       setShowConfirm(false);
 

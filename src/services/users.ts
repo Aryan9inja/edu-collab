@@ -91,8 +91,10 @@ export const checkUsernameExists = async (
 
     // Check if any row has the same username (case-insensitive)
     const exists = response.rows.some(
-      (row: any) =>
-        row.username?.toLowerCase() === username.toLowerCase()
+      (row) => {
+        const userRow = row as unknown as User;
+        return userRow.username?.toLowerCase() === username.toLowerCase();
+      }
     );
 
     return exists;

@@ -21,7 +21,7 @@ export default function ClassroomList({ onRefreshChange }: ClassroomListProps) {
     try {
       const data = await listClassrooms(userId);
       setClassrooms(data);
-    } catch (e) {
+    } catch {
       setClassrooms([]);
     } finally {
       setLoading(false);
@@ -85,7 +85,7 @@ export default function ClassroomList({ onRefreshChange }: ClassroomListProps) {
           No classrooms yet
         </h3>
         <p className="text-gray-500 text-center max-w-sm">
-          You haven't joined or created any classrooms. Create one to get
+          You haven&apos;t joined or created any classrooms. Create one to get
           started! Or join a Demo Classroom
           <button
             className="ml-2 text-blue-600 font-medium hover:underline"

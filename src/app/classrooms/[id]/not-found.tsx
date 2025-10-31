@@ -25,7 +25,7 @@ export default function NotFound() {
         </h1>
         
         <p className="text-gray-600 mb-8 max-w-md mx-auto">
-          The classroom you're looking for doesn't exist or you don't have access to it.
+          The classroom you&apos;re looking for doesn&apos;t exist or you don&apos;t have access to it.
         </p>
         
         <div className="flex gap-4 justify-center">

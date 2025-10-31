@@ -12,8 +12,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Upload } from "lucide-react";
-import { authService } from "@/services/auth";
 import { toast } from "sonner";
 import React from "react";
 import { useRouter } from "next/navigation";
