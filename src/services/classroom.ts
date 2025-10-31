@@ -224,6 +224,36 @@ const deleteNoteFromClassroom = async (
   }
 };
 
+// Leave a classroom
+const leaveClassroom = async (
+  classroomId: string,
+  userId: string
+): Promise<Classroom> => {
+  try {
+    const classroom = await getClassroom(classroomId);
+    
+    // Cannot leave if you're the admin
+    if (userId === classroom.adminId) {
+      throw new Error("Admin cannot leave the classroom");
+    }
+    
+    // Remove user from users array
+    const currentUsers = classroom.users || [];
+    const updatedUsers = currentUsers.filter(id => id !== userId);
+    
+    // Remove user from hasAccess array if they have access
+    const currentAccess = classroom.hasAccess || [];
+    const updatedAccess = currentAccess.filter(id => id !== userId);
+    
+    return await updateClassroom(classroomId, { 
+      users: updatedUsers,
+      hasAccess: updatedAccess 
+    });
+  } catch (error) {
+    throw error || new Error("Failed to leave classroom");
+  }
+};
+
 export { 
   createClassroom, 
   listClassrooms, 
@@ -234,5 +264,6 @@ export {
   checkUserAccess,
   grantAccess,
   revokeAccess,
-  deleteNoteFromClassroom
+  deleteNoteFromClassroom,
+  leaveClassroom
 };
