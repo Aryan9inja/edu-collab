@@ -36,11 +36,11 @@ export default function ClassroomContent({ classroom }: ClassroomContentProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50 py-8 px-4">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50 py-4 px-4">
+      <div className="max-w-6xl mx-auto">
         <ClassroomHeader name={classroom.name} classroomId={classroom.$id} classroom={classroom} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Members Section */}
           <div className="lg:col-span-1">
             <MembersSection 
