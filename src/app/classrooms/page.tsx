@@ -1,9 +1,23 @@
+"use client";
 import Protected from "@/components/auth/protected";
 import ClassroomList from "@/components/classroomList";
 import CreateClassButton from "@/components/createClassButton";
 import { LogoutButton } from "@/components/logoutButton";
+import { useRef } from "react";
 
 export default function Classrooms() {
+  const refreshClassroomsRef = useRef<(() => void) | null>(null);
+
+  const handleClassroomCreated = () => {
+    if (refreshClassroomsRef.current) {
+      refreshClassroomsRef.current();
+    }
+  };
+
+  const handleRefreshChange = (refreshFn: () => void) => {
+    refreshClassroomsRef.current = refreshFn;
+  };
+
   return (
     <Protected>
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-sky-50">
@@ -49,11 +63,11 @@ export default function Classrooms() {
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <div className="p-6">
-            <ClassroomList />
+            <ClassroomList onRefreshChange={handleRefreshChange} />
           </div>
         </div>
       </main>
-      <CreateClassButton/>
+      <CreateClassButton onClassroomCreated={handleClassroomCreated} />
     </div>
     </Protected>
   );
