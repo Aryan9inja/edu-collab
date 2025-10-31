@@ -3,29 +3,40 @@
 import { Classroom, joinClassroom, listClassrooms } from "@/services/classroom";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-export default function ClassroomList() {
+interface ClassroomListProps {
+  onRefreshChange?: (refreshFn: () => void) => void;
+}
+
+export default function ClassroomList({ onRefreshChange }: ClassroomListProps) {
   const router = useRouter();
   const { user } = useAuthStore();
   const userId = user?.$id || "";
   const [classrooms, setClassrooms] = useState<Classroom[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchClassrooms = async () => {
-      setLoading(true);
-      try {
-        const data = await listClassrooms(userId);
-        setClassrooms(data);
-      } catch (e) {
-        setClassrooms([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchClassrooms();
+  const fetchClassrooms = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await listClassrooms(userId);
+      setClassrooms(data);
+    } catch (e) {
+      setClassrooms([]);
+    } finally {
+      setLoading(false);
+    }
   }, [userId]);
+
+  useEffect(() => {
+    fetchClassrooms();
+  }, [fetchClassrooms]);
+
+  useEffect(() => {
+    if (onRefreshChange) {
+      onRefreshChange(fetchClassrooms);
+    }
+  }, [onRefreshChange, fetchClassrooms]);
 
   const handleJoinDemo = async () => {
     setLoading(true);
