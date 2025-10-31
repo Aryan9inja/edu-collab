@@ -1,0 +1,15 @@
+{
+  "projectId": "68e2a35e001e62d39da7",
+  "projectName": "edu-collab",
+  "settings": {
+    "services": {
+      "web": {
+        "runtime": "node-18.0",
+        "buildCommand": "pnpm install && pnpm run build",
+        "outputDirectory": ".next",
+        "installCommand": "pnpm install",
+        "rootDirectory": "."
+      }
+    }
+  }
+}
