@@ -5,8 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import { toast } from "sonner";
 
-export default function CreateClassButton() {
+interface CreateClassButtonProps {
+  onClassroomCreated?: () => void;
+}
+
+export default function CreateClassButton({ onClassroomCreated }: CreateClassButtonProps) {
   const { user } = useAuthStore();
   const [isOpen, setIsOpen] = useState(false);
   const [className, setClassName] = useState("");
@@ -26,12 +31,16 @@ export default function CreateClassButton() {
     
     try {
       await createClassroom({ userId: user!.$id, name: className.trim() });
+      toast.success("Classroom created successfully!");
       setClassName("");
       setIsOpen(false);
-      // Reload the page to show the new classroom
-      window.location.reload();
+      // Trigger the callback to refresh the classroom list
+      if (onClassroomCreated) {
+        onClassroomCreated();
+      }
     } catch (err) {
       setError("Failed to create classroom. Please try again.");
+      toast.error("Failed to create classroom");
       console.error(err);
     } finally {
       setLoading(false);
