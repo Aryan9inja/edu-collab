@@ -15,6 +15,7 @@ export default function ClassroomList({ onRefreshChange }: ClassroomListProps) {
   const userId = user?.$id || "";
   const [classrooms, setClassrooms] = useState<Classroom[]>([]);
   const [loading, setLoading] = useState(true);
+  const [navigatingToId, setNavigatingToId] = useState<string | null>(null);
 
   const fetchClassrooms = useCallback(async () => {
     setLoading(true);
@@ -98,30 +99,40 @@ export default function ClassroomList({ onRefreshChange }: ClassroomListProps) {
     );
   }
 
+  const handleClassroomClick = (classroomId: string) => {
+    setNavigatingToId(classroomId);
+    router.push(`/classrooms/${classroomId}`);
+  };
+
   return (
     <div className="space-y-3">
       {classrooms.map((classroom) => (
         <button
           key={classroom.$id}
-          onClick={() => router.push(`/classrooms/${classroom.$id}`)}
-          className="w-full group relative flex items-center gap-4 p-5 bg-gradient-to-r from-white to-blue-50/50 rounded-xl border border-gray-200 hover:border-blue-400 hover:shadow-lg transition-all duration-200 text-left"
+          onClick={() => handleClassroomClick(classroom.$id)}
+          disabled={navigatingToId === classroom.$id}
+          className="w-full group relative flex items-center gap-4 p-5 bg-gradient-to-r from-white to-blue-50/50 rounded-xl border border-gray-200 hover:border-blue-400 hover:shadow-lg transition-all duration-200 text-left disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {/* Icon */}
           <div className="flex-shrink-0">
             <div className="bg-gradient-to-br from-blue-600 to-blue-700 p-3 rounded-lg shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-200">
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 14l9-5-9-5-9 5 9 5zm0 0v6m0-6l-9-5m9 5l9-5"
-                />
-              </svg>
+              {navigatingToId === classroom.$id ? (
+                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <svg
+                  className="w-6 h-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 14l9-5-9-5-9 5 9 5zm0 0v6m0-6l-9-5m9 5l9-5"
+                  />
+                </svg>
+              )}
             </div>
           </div>
 
@@ -156,19 +167,23 @@ export default function ClassroomList({ onRefreshChange }: ClassroomListProps) {
 
           {/* Arrow Icon */}
           <div className="flex-shrink-0">
-            <svg
-              className="w-5 h-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-200"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
+            {navigatingToId === classroom.$id ? (
+              <span className="text-sm text-blue-600 font-medium">Opening...</span>
+            ) : (
+              <svg
+                className="w-5 h-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-200"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            )}
           </div>
         </button>
       ))}
