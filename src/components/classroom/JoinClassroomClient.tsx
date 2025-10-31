@@ -46,8 +46,8 @@ export default function JoinClassroomClient({ classroom }: JoinClassroomClientPr
 
     try {
       await joinClassroom(classroom.$id, userId);
-      // Redirect to the classroom page
-      router.push(`/classrooms/${classroom.$id}`);
+      // Replace the current page in history so back button goes to classroom list
+      router.replace(`/classrooms/${classroom.$id}`);
     } catch (err) {
       console.error("Error joining classroom:", err);
       setError("Failed to join classroom. Please try again.");
@@ -57,7 +57,8 @@ export default function JoinClassroomClient({ classroom }: JoinClassroomClientPr
   };
 
   const handleGoToClassroom = () => {
-    router.push(`/classrooms/${classroom.$id}`);
+    // Replace the current page in history so back button goes to classroom list
+    router.replace(`/classrooms/${classroom.$id}`);
   };
 
   if (loading) {
