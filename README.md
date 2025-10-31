@@ -1,7 +1,7 @@
 # Hackathon Submission: EduCollab
 
 ## GitHub handle
-@Aryan9inja
+[@Aryan9inja](https://github.com/Aryan9inja)
 
 ## Project Title
 EduCollab
@@ -25,7 +25,7 @@ Next.js 15 (App Router) + TypeScript, Tailwind CSS 4, Zustand for client state, 
 - [x] Sites
 
 ## Project Repo
-https://github.com/Aryan9inja/edu-collab
+[Project Repository](https://github.com/Aryan9inja/edu-collab)
 
 ## Deployed Site URL
 [Deployed website](https://edu-collab.appwrite.network/)
